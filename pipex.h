@@ -2,6 +2,6 @@
 #define PIPEX_H
 # include <unistd.h>
 # include "libft/libft.h"
-# include <errno.h>
+# include <errno.h> //pour check error avec le acces
 
 #endif

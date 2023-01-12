@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+         #
+#    By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/12 16:53:51 by nmorandi         ###   ########.fr        #
+#    Updated: 2023/01/12 20:22:00 by gouz             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,10 @@ OBJ=$(FILES:.c=.o)
 %.o : %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
 
-all: $(NAME)
+all: submake $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -L ./libft -lft -o $(NAME)
 
 submake:
 	(cd ./libft; make all)
@@ -35,10 +35,10 @@ subclean:
 subfclean:
 	(cd ./libft; make fclean)
 
-clean:
+clean: subclean
 	rm -f $(OBJ)
 
-fclean: clean
+fclean: clean subfclean
 	rm -f $(NAME)
 
 re: fclean all
