@@ -6,14 +6,15 @@
 #    By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/12 20:22:00 by gouz             ###   ########.fr        #
+#    Updated: 2023/01/16 18:14:17 by gouz             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=pipex
 CC=clang
-CFLAGS=-Wall -Werror -Wextra
+CFLAGS=-g
 FILES=main.c		\
+	parse.c			\
 
 
 OBJ=$(FILES:.c=.o)
