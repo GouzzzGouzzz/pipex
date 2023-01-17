@@ -5,5 +5,6 @@
 # include <sys/wait.h>
 
 char    *get_path(char **env);
+void    free_split(char **split);
 
 #endif

@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+         #
+#    By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/16 18:14:17 by gouz             ###   ########.fr        #
+#    Updated: 2023/01/17 13:14:14 by nmorandi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=pipex
-CC=clang
+CC=cc
 CFLAGS=-g
 FILES=main.c		\
 	parse.c			\

@@ -11,3 +11,13 @@ char    *get_path(char **env)
             return (env[i] + 5);
     return (NULL);
 }
+
+void    free_split(char **split)
+{
+    int i;
+
+    i = -1;
+    while(split[++i])
+        free(split[i]);
+    free(split);
+}
