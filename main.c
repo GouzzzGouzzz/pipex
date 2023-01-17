@@ -12,8 +12,9 @@ static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
 	i = -1;
 	if (dup2(in_fd, 0) < 0) //lire sur le infile (stdin = 0)
 		return ;
-	if (dup2(link[1], 0) < 0)
+	if (dup2(link[1], 1) < 0)
 		return ;
+	close(link[0]);
 	close(in_fd);
 	path = ft_split(get_path(envp), ':');
 	while (path[++i])
@@ -28,6 +29,7 @@ static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
 		free(ptrfree);
 	}
 	free_split(path);
+	printf("suuu");
 }
 
 static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
@@ -38,12 +40,13 @@ static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
 	int		i;
 
 	i = -1;
-	printf("SADSASDASDASD");
 	waitpid(-1, NULL, 0);
 	if (dup2(out_fd, 1) < 0)
 		return ;
-	if (dup2(link[0], 1) < 0)
+	if (dup2(link[0], 0) < 0)
 		return ;
+	close(link[1]);
+	//close(out_fd); // pas sur de lui faut test
 	path = ft_split(get_path(envp), ':');
 	while (path[++i])
 	{
@@ -54,8 +57,8 @@ static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
 		free(cmd);
 		free(freeptr);
 	}
+	printf("sheesh");
 	free_split(path);
-	exit(EXIT_SUCCESS);
 }
 
 static void join_process(int in_fd, int out_fd, char **envp, char **argv)
@@ -85,6 +88,5 @@ int main(int argc, char **argv, char **envp)
 	out_fd = open(argv[4], O_CREAT | O_TRUNC | O_RDWR, 00644);
 	if (in_fd == -1 || out_fd == -1)
 		return (0);
-	printf("HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: %d",out_fd);
 	join_process(in_fd, out_fd, envp, argv);
 }
