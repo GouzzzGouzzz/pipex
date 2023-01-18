@@ -3,43 +3,38 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+         #
+#    By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/17 13:14:14 by nmorandi         ###   ########.fr        #
+#    Updated: 2023/01/18 04:34:58 by gouz             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=pipex
 CC=cc
 CFLAGS=-g
-FILES=main.c		\
-	parse.c			\
-
+FILES=main.c			\
+	parse.c				\
+	utils/ft_memcpy.c	\
+	utils/ft_strlen.c	\
+	utils/ft_strncmp.c	\
+	utils/ft_strjoin.c	\
+	utils/ft_split.c	\
 
 OBJ=$(FILES:.c=.o)
 
 %.o : %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
 
-all: submake $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -L ./libft -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-submake:
-	(cd ./libft; make all)
-
-subclean:
-	(cd ./libft; make clean)
-
-subfclean:
-	(cd ./libft; make fclean)
-
-clean: subclean
+clean:
 	rm -f $(OBJ)
 
-fclean: clean subfclean
+fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
