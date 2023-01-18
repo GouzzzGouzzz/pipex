@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+         #
+#    By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/18 04:34:58 by gouz             ###   ########.fr        #
+#    Updated: 2023/01/18 16:48:34 by nmorandi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME=pipex
 CC=cc
 CFLAGS=-g
 FILES=main.c			\
-	parse.c				\
+	utils.c				\
 	utils/ft_memcpy.c	\
 	utils/ft_strlen.c	\
 	utils/ft_strncmp.c	\
