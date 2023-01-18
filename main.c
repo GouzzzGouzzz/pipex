@@ -7,7 +7,9 @@ static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
 	int		i;
 	char	*cmd;
 	char	**path;
+	char 	**cmd_arg;
 
+	printf("%s",cmd_arg[0]);
 	i = -1;
 	if (dup2(in_fd, 0) < 0)
 		return ;
@@ -15,16 +17,18 @@ static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
 		return ;
 	close(link[0]);
 	close(in_fd);
-	path = ft_split(get_path(envp), ':');
+	path = ft_split(get_path(envp), ':'); //need protc
+	cmd_arg = get_arg_cmd(argv[2]); //need protect
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], argv[2]);
-		if (error_handler(cmd, path) == -1)
-			exit(-1);
-		execve(cmd, argv ,envp);	//need le cmd not found
+		//if (error_handler(cmd, path) == -1)
+		//	exit(-1);
+		execve(cmd, cmd_arg ,envp);
 		free(cmd);
 	}
 	free_split(path);
+	free_split(cmd_arg);
 }
 
 static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
@@ -32,6 +36,7 @@ static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
 	char	**path;
 	char	*cmd;
 	int		i;
+	char	**cmd_arg;
 
 	i = -1;
 	waitpid(-1, NULL, 0);
@@ -42,16 +47,17 @@ static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
 	close(link[1]);
 	close(out_fd);
 	path = ft_split(get_path(envp), ':');
+	cmd_arg = get_arg_cmd(argv[3]);
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], argv[3]);
-		if (error_handler(cmd, path) == -1)
-			exit(-1);
-		execve(cmd, argv, envp);	//need le cmd not found
+		//if (error_handler(cmd, path) == -1) // peut etre metre un flag car need change
+		//	exit(-1);
+		execve(cmd, cmd_arg, envp);
 		free(cmd);
 	}
 	free_split(path);
-	
+	free_split(cmd_arg);
 }
 
 static void join_process(int in_fd, int out_fd, char **envp, char **argv)

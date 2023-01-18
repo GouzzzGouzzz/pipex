@@ -31,17 +31,41 @@ char    *get_cmd(char *path, char *arg)
     if (!cmd)
         return (NULL);
     ptr = cmd;
-    cmd = ft_strjoin(cmd, arg);
+    cmd = ft_strjoin(cmd, arg); //check mais arg doit etre entier (pas bon)
     free(ptr);
     if (!cmd)
         return (NULL);
     return (cmd);
 }
 
+char **get_arg_cmd(char *args)
+{
+    char **cmd_arg;
+    int i;
+
+    i = 0;
+    if (!args)
+        return (NULL);
+    while(args[i] != ' ' && args[i])
+        i++;
+    cmd_arg = ft_split(&args[i], ' ');
+    if (!cmd_arg)
+        return (NULL);
+    if (cmd_arg[0] == NULL)
+    {
+        free_split(cmd_arg);
+        return (NULL);
+    }
+    return (cmd_arg);
+}
+
 int error_handler(char *cmd, char **path)
 {
     if (!cmd)
+    {
+        free_split(path);
         return (-1);
+    }
     if (access(cmd, F_OK) == -1)
     {
         free(cmd);
