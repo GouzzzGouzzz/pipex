@@ -1,13 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/20 16:40:08 by nmorandi          #+#    #+#             */
+/*   Updated: 2023/01/20 17:42:45 by nmorandi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 #include <stdio.h>
 
 // REMETTRE FLAG DAS LE MAKEFILE
+
+static int	check_acces(char **path, char *arg)
+{
+	char	*cmd;
+	int		i;
+
+	i = -1;
+	while (path[++i])
+	{
+		cmd = get_cmd(path[i], arg);
+		if (access(cmd, F_OK) == 0)
+			return (1);
+		free(cmd);
+	}
+	perror("CMD");
+	free_split(path);
+	return (-1);
+}
+
 static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
 {
 	int		i;
 	char	*cmd;
 	char	**path;
-	char 	**cmd_arg;
+	char	**cmd_arg;
 
 	i = -1;
 	if (dup2(in_fd, 0) < 0)
@@ -17,13 +48,13 @@ static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
 	close(link[0]);
 	close(in_fd);
 	path = ft_split(get_path(envp), ':'); //need protc
+	if (check_acces(path, argv[2]) == -1)
+		 exit(-1);
 	cmd_arg = get_arg_cmd(argv[2]); //need protect
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], argv[2]);
-		//if (error_handler(cmd, path) == -1)
-		//	exit(-1);
-		execve(cmd, cmd_arg ,envp);
+		execve(cmd, cmd_arg, envp);
 		free(cmd);
 	}
 	free_split(path);
@@ -46,12 +77,12 @@ static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
 	close(link[1]);
 	close(out_fd);
 	path = ft_split(get_path(envp), ':');
+	if (check_acces(path, argv[2]) == -1)
+		 exit(-1);
 	cmd_arg = get_arg_cmd(argv[3]);
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], argv[3]);
-		//if (error_handler(cmd, path) == -1) // peut etre metre un flag car need change
-		//	exit(-1);
 		execve(cmd, cmd_arg, envp);
 		free(cmd);
 	}
@@ -59,12 +90,12 @@ static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
 	free_split(cmd_arg);
 }
 
-static void join_process(int in_fd, int out_fd, char **envp, char **argv)
+static void	join_process(int in_fd, int out_fd, char **envp, char **argv)
 {
 	int		link[2];
 	int		pid;
 
-	if(pipe(link) == -1)
+	if (pipe(link) == -1)
 		return ;
 	pid = fork();
 	if (pid < 0)
@@ -75,7 +106,7 @@ static void join_process(int in_fd, int out_fd, char **envp, char **argv)
 		parent_exec(link, out_fd, argv, envp);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	int		in_fd;
 	int		out_fd;

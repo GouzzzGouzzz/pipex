@@ -6,13 +6,13 @@
 #    By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/18 16:48:34 by nmorandi         ###   ########.fr        #
+#    Updated: 2023/01/20 17:06:59 by nmorandi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=pipex
 CC=cc
-CFLAGS=-g
+CFLAGS=-Wall -Werror -Wextra
 FILES=main.c			\
 	utils.c				\
 	utils/ft_memcpy.c	\
