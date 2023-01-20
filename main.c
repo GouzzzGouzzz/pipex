@@ -9,7 +9,6 @@ static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
 	char	**path;
 	char 	**cmd_arg;
 
-	printf("%s",cmd_arg[0]);
 	i = -1;
 	if (dup2(in_fd, 0) < 0)
 		return ;

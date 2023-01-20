@@ -7,7 +7,7 @@ char    *get_path(char **env)
 
     i = -1;
     while (env[++i])
-        if (ft_strncmp("PATH",env[i], 4) == 0)
+        if (ft_strncmp("PATH", env[i], 4) == 0)
             return (env[i] + 5);
     return (NULL);
 }
@@ -26,13 +26,16 @@ char    *get_cmd(char *path, char *arg)
 {
     char    *cmd;
     char    *ptr;
+    char    **full_cmd;
 
     cmd = ft_strjoin(path, "/");
     if (!cmd)
         return (NULL);
     ptr = cmd;
-    cmd = ft_strjoin(cmd, arg); //check mais arg doit etre entier (pas bon)
+    full_cmd = ft_split(arg, ' ');
+    cmd = ft_strjoin(cmd, full_cmd[0]);
     free(ptr);
+    free_split(full_cmd);
     if (!cmd)
         return (NULL);
     return (cmd);
@@ -41,14 +44,10 @@ char    *get_cmd(char *path, char *arg)
 char **get_arg_cmd(char *args)
 {
     char **cmd_arg;
-    int i;
 
-    i = 0;
     if (!args)
         return (NULL);
-    while(args[i] != ' ' && args[i])
-        i++;
-    cmd_arg = ft_split(&args[i], ' ');
+    cmd_arg = ft_split(args, ' ');
     if (!cmd_arg)
         return (NULL);
     if (cmd_arg[0] == NULL)
