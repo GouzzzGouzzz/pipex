@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:40:08 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/20 17:42:45 by nmorandi         ###   ########.fr       */
+/*   Updated: 2023/01/23 19:13:10 by gouz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,18 @@ static int	check_acces(char **path, char *arg)
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], arg);
+		if (!cmd)
+			return (NULL);
 		if (access(cmd, F_OK) == 0)
+		{
+			free(cmd);
 			return (1);
+		}
 		free(cmd);
 	}
-	perror("CMD");
+	perror("Command error");
 	free_split(path);
-	return (-1);
+	return (NULL);
 }
 
 static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
@@ -47,13 +52,24 @@ static void	child_exec(int link[2], int in_fd, char **argv, char **envp)
 		return ;
 	close(link[0]);
 	close(in_fd);
-	path = ft_split(get_path(envp), ':'); //need protc
-	if (check_acces(path, argv[2]) == -1)
-		 exit(-1);
-	cmd_arg = get_arg_cmd(argv[2]); //need protect
+	path = ft_split(get_path(envp), ':');
+	if (!check_acces(path, argv[2]) || !path)
+		return ;
+	cmd_arg = get_arg_cmd(argv[2]);
+	if (!cmd_arg)
+	{
+		free_split(path);
+		return ;
+	}
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], argv[2]);
+		if (!cmd)
+		{
+			free_split(path);
+			free_split(cmd_arg);
+			return ;
+		}
 		execve(cmd, cmd_arg, envp);
 		free(cmd);
 	}
@@ -77,12 +93,23 @@ static void	parent_exec(int link[2], int out_fd, char **argv, char **envp)
 	close(link[1]);
 	close(out_fd);
 	path = ft_split(get_path(envp), ':');
-	if (check_acces(path, argv[2]) == -1)
-		 exit(-1);
+	if (!check_acces(path, argv[3]) || !path)
+		return ;
 	cmd_arg = get_arg_cmd(argv[3]);
+	if (!cmd_arg)
+	{
+		free_split(path);
+		return ;
+	}
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], argv[3]);
+		if (!cmd)
+		{
+			free_split(path);
+			free_split(cmd_arg);
+			return ;
+		}
 		execve(cmd, cmd_arg, envp);
 		free(cmd);
 	}
@@ -118,4 +145,5 @@ int	main(int argc, char **argv, char **envp)
 	if (in_fd == -1 || out_fd == -1)
 		return (0);
 	join_process(in_fd, out_fd, envp, argv);
+	return (0);
 }

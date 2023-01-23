@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:42:34 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/20 17:29:39 by nmorandi         ###   ########.fr       */
+/*   Updated: 2023/01/23 18:47:30 by gouz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,4 @@ char	**get_arg_cmd(char *args)
 		return (NULL);
 	}
 	return (cmd_arg);
-}
-
-int	error_handler(char *cmd, char **path)
-{
-	if (!cmd)
-	{
-		free_split(path);
-		return (-1);
-	}
-	if (access(cmd, F_OK) == -1)
-		return (-1);
-	else
-		return (1);
-	return (0);
 }
