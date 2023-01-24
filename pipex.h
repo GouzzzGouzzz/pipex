@@ -6,7 +6,7 @@
 /*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:32:08 by gouz              #+#    #+#             */
-/*   Updated: 2023/01/23 18:47:27 by gouz             ###   ########.fr       */
+/*   Updated: 2023/01/24 18:27:11 by gouz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
-# include <errno.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -30,6 +29,5 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 char	*get_cmd(char *path, char *arg);
 char	**get_arg_cmd(char *args);
-int		error_handler(char *cmd, char **path);
-
+int		msg_error(char *str);
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+         #
+#    By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/20 17:06:59 by nmorandi         ###   ########.fr        #
+#    Updated: 2023/01/24 18:02:20 by gouz             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,11 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra
 FILES=main.c			\
 	utils.c				\
-	utils/ft_memcpy.c	\
-	utils/ft_strlen.c	\
-	utils/ft_strncmp.c	\
-	utils/ft_strjoin.c	\
-	utils/ft_split.c	\
+	func/ft_memcpy.c	\
+	func/ft_strlen.c	\
+	func/ft_strncmp.c	\
+	func/ft_strjoin.c	\
+	func/ft_split.c		\
 
 OBJ=$(FILES:.c=.o)
 

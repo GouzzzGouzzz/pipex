@@ -6,12 +6,11 @@
 /*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:42:34 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/23 18:47:30 by gouz             ###   ########.fr       */
+/*   Updated: 2023/01/24 18:24:23 by gouz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
 
 char	*get_path(char **env)
 {
@@ -68,4 +67,14 @@ char	**get_arg_cmd(char *args)
 		return (NULL);
 	}
 	return (cmd_arg);
+}
+
+int	msg_error(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		write(2, &str[i], 1);
+	return (-1);
 }
