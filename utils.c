@@ -6,7 +6,7 @@
 /*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:42:34 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/24 18:24:23 by gouz             ###   ########.fr       */
+/*   Updated: 2023/01/25 04:30:34 by gouz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ char	*get_cmd(char *path, char *arg)
 		return (NULL);
 	ptr = cmd;
 	full_cmd = ft_split(arg, ' ');
+	if (!full_cmd)
+	{
+		free(cmd);
+		return (NULL);
+	}
 	cmd = ft_strjoin(cmd, full_cmd[0]);
 	free(ptr);
 	free_split(full_cmd);

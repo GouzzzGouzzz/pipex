@@ -6,7 +6,7 @@
 /*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:40:08 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/24 18:20:57 by gouz             ###   ########.fr       */
+/*   Updated: 2023/01/25 05:19:55 by gouz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ static int	child_exec(int link[2], int in_fd, char **argv, char **envp)
 		return (msg_error("Dup2 failed"));
 	close(link[0]);
 	path = ft_split(get_path(envp), ':');
-	if (!check_acces(path, argv[2]))
-		return (-1);
 	cmd_arg = get_arg_cmd(argv[2]);
+	if (!check_acces(path, argv[2]))
+		exit(EXIT_FAILURE);
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], argv[2]);
+		if (!cmd || !cmd_arg)
+			exit(EXIT_FAILURE);
 		execve(cmd, cmd_arg, envp);
 		free(cmd);
 	}
-	free_split(path);
-	free_split(cmd_arg);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
 
 static int	sec_child_exec(int link[2], int out_fd, char **argv, char **envp)
@@ -77,18 +77,18 @@ static int	sec_child_exec(int link[2], int out_fd, char **argv, char **envp)
 		return (msg_error("Dup2 failed"));
 	close(link[1]);
 	path = ft_split(get_path(envp), ':');
-	if (!check_acces(path, argv[3]))
-		return (-1);
 	cmd_arg = get_arg_cmd(argv[3]);
+	if (!check_acces(path, argv[3]))
+		exit(EXIT_FAILURE);
 	while (path[++i])
 	{
 		cmd = get_cmd(path[i], argv[3]);
+		if (!cmd || !cmd_arg)
+			exit(EXIT_FAILURE);
 		execve(cmd, cmd_arg, envp);
 		free(cmd);
 	}
-	free_split(path);
-	free_split(cmd_arg);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
 
 static int	join_process(int in_fd, int out_fd, char **envp, char **argv)
