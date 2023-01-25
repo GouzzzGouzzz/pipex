@@ -6,7 +6,7 @@
 /*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:42:34 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/25 04:30:34 by gouz             ###   ########.fr       */
+/*   Updated: 2023/01/25 06:17:14 by gouz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_path(char **env)
 	return (NULL);
 }
 
-void	free_split(char **split)
+static void	free_split(char **split)
 {
 	int	i;
 
