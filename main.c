@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:40:08 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/25 05:19:55 by gouz             ###   ########.fr       */
+/*   Updated: 2023/01/30 14:52:20 by nmorandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	check_acces(char **path, char *arg)
 		}
 		free(cmd);
 	}
-	return (msg_error("Command not found"));
+	return (msg_error("Command not found\n"));
 }
 
 static int	child_exec(int link[2], int in_fd, char **argv, char **envp)
@@ -125,15 +125,15 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	in_fd = open(argv[1], O_RDONLY);
 	if (in_fd == -1)
-		return (0);
+		return (msg_error("Error : File error\n"));
 	out_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 0000644);
 	if (out_fd == -1)
 	{
 		close(in_fd);
-		return (0);
+		return (msg_error("Error : File error\n"));
 	}
 	if (join_process(in_fd, out_fd, envp, argv) == -1)
-		return (msg_error("An error occured"));
+		return (msg_error("Error : process error\n"));
 	close(in_fd);
 	close(out_fd);
 	return (0);
