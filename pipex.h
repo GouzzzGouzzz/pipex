@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:32:08 by gouz              #+#    #+#             */
-/*   Updated: 2023/01/25 06:17:47 by gouz             ###   ########.fr       */
+/*   Updated: 2023/01/30 19:01:36 by nmorandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ char	**ft_split(char const *s, char c);
 char	*get_cmd(char *path, char *arg);
 char	**get_arg_cmd(char *args);
 int		msg_error(char *str);
+void	free_split(char **split);
 #endif

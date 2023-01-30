@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:42:34 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/25 06:17:14 by gouz             ###   ########.fr       */
+/*   Updated: 2023/01/30 19:11:14 by nmorandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_path(char **env)
 	return (NULL);
 }
 
-static void	free_split(char **split)
+void	free_split(char **split)
 {
 	int	i;
 
@@ -65,7 +65,10 @@ char	**get_arg_cmd(char *args)
 		return (NULL);
 	cmd_arg = ft_split(args, ' ');
 	if (!cmd_arg)
+	{
+		free_split(cmd_arg);
 		return (NULL);
+	}
 	if (cmd_arg[0] == NULL)
 	{
 		free_split(cmd_arg);
