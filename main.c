@@ -126,7 +126,7 @@ int	main(int argc, char **argv, char **envp)
 	in_fd = open(argv[1], O_RDONLY);
 	if (in_fd == -1)
 		return (msg_error("Error : File error\n"));
-	out_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 0000644);
+	out_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 0644);
 	if (out_fd == -1)
 	{
 		close(in_fd);
