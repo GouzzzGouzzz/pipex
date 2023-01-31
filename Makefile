@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gouz <gouz@student.42.fr>                  +#+  +:+       +#+         #
+#    By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/24 18:02:20 by gouz             ###   ########.fr        #
+#    Updated: 2023/01/31 14:31:54 by nmorandi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra
 FILES=main.c			\
 	utils.c				\
+	utils2.c			\
 	func/ft_memcpy.c	\
 	func/ft_strlen.c	\
 	func/ft_strncmp.c	\

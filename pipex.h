@@ -6,7 +6,7 @@
 /*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:32:08 by gouz              #+#    #+#             */
-/*   Updated: 2023/01/30 19:01:36 by nmorandi         ###   ########.fr       */
+/*   Updated: 2023/01/31 14:29:43 by nmorandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+
+typedef struct s_file{
+	int	in_fd;
+	int	out_fd;
+}		t_fd;
 
 size_t	ft_strlen(const char *s);
 char	*get_path(char **env);
@@ -27,4 +32,6 @@ char	*get_cmd(char *path, char *arg);
 char	**get_arg_cmd(char *args);
 int		msg_error(char *str);
 void	free_split(char **split);
+void	close_all_fds(t_fd *file, int pipe[2]);
+
 #endif
