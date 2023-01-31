@@ -6,7 +6,7 @@
 /*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:40:08 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/31 14:45:02 by nmorandi         ###   ########.fr       */
+/*   Updated: 2023/01/31 16:15:15 by nmorandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ static char	*check_acces(char **path, char *arg)
 		if (!cmd)
 			return (NULL);
 		if (access(cmd, F_OK) == 0)
-		{
 			return (cmd);
-		}
 		free(cmd);
 	}
 	return (NULL);
@@ -40,10 +38,10 @@ static int	child_exec(int link[2], t_fd *file, char **argv, char **envp)
 	char	**path;
 	char	**cmd_arg;
 
-	if (dup2(file->in_fd, 0) < 0)
-		return (msg_error("Error : Dup2 failed"));
+	if (dup2(file->in_fd, 0) < 0) // cause le double mais evite des erreurs
+		return (msg_error("Error : Dup2 failed\n"));
 	if (dup2(link[1], 1) < 0)
-		return (msg_error("Error : Dup2 failed"));
+		return (msg_error("Error : Dup2 failed\n"));
 	close_all_fds(file, link);
 	path = ft_split(get_path(envp), ':');
 	cmd_arg = get_arg_cmd(argv[2]);
@@ -55,10 +53,10 @@ static int	child_exec(int link[2], t_fd *file, char **argv, char **envp)
 			free_split(cmd_arg);
 		if (cmd)
 			free(cmd);
-		return (msg_error("Error : Command not found\n"));
+		return (msg_error("Error : Command not found \n"));
 	}
 	execve(cmd, cmd_arg, envp);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
 
 static int	sec_child_exec(int link[2], t_fd *file, char **argv, char **envp)
@@ -68,9 +66,9 @@ static int	sec_child_exec(int link[2], t_fd *file, char **argv, char **envp)
 	char	**cmd_arg;
 
 	if (dup2(file->out_fd, 1) < 0)
-		return (msg_error("Error : Dup2 failed"));
+		return (msg_error("Error : Dup2 failed\n"));
 	if (dup2(link[0], 0) < 0)
-		return (msg_error("Error : Dup2 failed"));
+		return (msg_error("Error : Dup2 failed\n"));
 	close_all_fds(file, link);
 	path = ft_split(get_path(envp), ':');
 	cmd_arg = get_arg_cmd(argv[3]);
@@ -85,7 +83,7 @@ static int	sec_child_exec(int link[2], t_fd *file, char **argv, char **envp)
 		return (msg_error("Error : Command not found\n"));
 	}
 	execve(cmd, cmd_arg, envp);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
 
 static int	join_process(t_fd *file, char **envp, char **argv)
@@ -127,8 +125,10 @@ int	main(int argc, char **argv, char **envp)
 		return (msg_error("Error : File error\n"));
 	}
 	if (join_process(&file, envp, argv) == -1)
+	{
+		close_all_fds(&file, NULL);
 		return (msg_error("Error : process error\n"));
-	close(file.in_fd);
-	close(file.out_fd);
+	}
+	close_all_fds(&file, NULL);
 	return (0);
 }
