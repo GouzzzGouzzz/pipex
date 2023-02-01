@@ -6,7 +6,7 @@
 /*   By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:40:08 by nmorandi          #+#    #+#             */
-/*   Updated: 2023/01/31 16:15:15 by nmorandi         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:13:37 by nmorandi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ static int	child_exec(int link[2], t_fd *file, char **argv, char **envp)
 	char	*cmd;
 	char	**path;
 	char	**cmd_arg;
+	int		check;
 
-	if (dup2(file->in_fd, 0) < 0) // cause le double mais evite des erreurs
-		return (msg_error("Error : Dup2 failed\n"));
+	check = dup2(file->in_fd, 0);
 	if (dup2(link[1], 1) < 0)
-		return (msg_error("Error : Dup2 failed\n"));
+		return (msg_error("Error : Dup2 failed2\n"));
 	close_all_fds(file, link);
+	if (check < 0)
+		return (msg_error("Error : Dup2 failed1\n"));
 	path = ft_split(get_path(envp), ':');
 	cmd_arg = get_arg_cmd(argv[2]);
 	cmd = check_acces(path, argv[2]);
@@ -66,9 +68,9 @@ static int	sec_child_exec(int link[2], t_fd *file, char **argv, char **envp)
 	char	**cmd_arg;
 
 	if (dup2(file->out_fd, 1) < 0)
-		return (msg_error("Error : Dup2 failed\n"));
+		return (msg_error("Error : Dup2 failed3\n"));
 	if (dup2(link[0], 0) < 0)
-		return (msg_error("Error : Dup2 failed\n"));
+		return (msg_error("Error : Dup2 failed4\n"));
 	close_all_fds(file, link);
 	path = ft_split(get_path(envp), ':');
 	cmd_arg = get_arg_cmd(argv[3]);
@@ -122,7 +124,7 @@ int	main(int argc, char **argv, char **envp)
 	if (file.out_fd == -1)
 	{
 		close(file.in_fd);
-		return (msg_error("Error : File error\n"));
+		return (msg_error("Error : Outfile error\n"));
 	}
 	if (join_process(&file, envp, argv) == -1)
 	{

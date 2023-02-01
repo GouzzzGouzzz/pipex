@@ -6,13 +6,13 @@
 #    By: nmorandi <nmorandi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/18 15:58:39 by nmorandi          #+#    #+#              #
-#    Updated: 2023/01/31 14:31:54 by nmorandi         ###   ########.fr        #
+#    Updated: 2023/02/01 15:50:19 by nmorandi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=pipex
 CC=cc
-CFLAGS=-Wall -Werror -Wextra
+CFLAGS=-Wall -Werror -Wextra -g
 FILES=main.c			\
 	utils.c				\
 	utils2.c			\
