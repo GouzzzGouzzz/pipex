@@ -120,7 +120,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 		return (0);
 	file.in_fd = open(argv[1], O_RDONLY);
-	file.out_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 0644);
+	file.out_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 00664);
 	if (file.out_fd == -1)
 	{
 		close(file.in_fd);
